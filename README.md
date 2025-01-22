@@ -154,7 +154,7 @@ At the moment, while the save to file takes place, the SLAM is inactive.
 # 5. Run
 After sourcing your setup bash using
 ```
-source devel/setup.bash
+source install/setup.bash
 ```
 
 # 6. FAQ
