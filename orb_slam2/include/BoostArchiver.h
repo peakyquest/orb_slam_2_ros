@@ -10,6 +10,7 @@
  */
 #ifndef BOOST_ARCHIVER_H
 #define BOOST_ARCHIVER_H
+#include <boost/serialization/library_version_type.hpp>
 #include <boost/serialization/list.hpp>
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/set.hpp>
