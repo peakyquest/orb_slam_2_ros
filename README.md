@@ -53,13 +53,13 @@ if you use ORB-SLAM2 (Stereo or RGB-D) in an academic work, please cite:
      }
 
 # 2. Building orb_slam2_ros
-We have tested the library in **Ubuntu 16.04** with **ROS Kinetic** and **Ubuntu 18.04** with **ROS Melodic**. A powerful computer (e.g. i7) will ensure real-time performance and provide more stable and accurate results.
-A C++11 compiler is needed.
+We have tested the library in Ubuntu 22.04 with ROS Humble. A powerful computer (e.g., i7) will ensure real-time performance and provide more stable and accurate results.
 
 ## Getting the code
 Clone the repository into your catkin workspace:
 ```
-git clone https://github.com/appliedAI-Initiative/orb_slam_2_ros.git
+git clone https://github.com/peakyquest/orb_slam_2_ros.git
+git checkout ros2
 ```
 
 ## ROS
@@ -83,7 +83,7 @@ sudo apt install libeigen3-dev
 ## Building
 To build the node run
 ```
-catkin build
+colcon build
 ```
 in your catkin folder.
 
@@ -156,48 +156,17 @@ After sourcing your setup bash using
 ```
 source devel/setup.bash
 ```
-## Suported cameras
-| Camera               | Mono                                                           | Stereo                                                           | RGBD                                                       |
-|----------------------|----------------------------------------------------------------|------------------------------------------------------------------|------------------------------------------------------------|
-| Intel RealSense r200 | ``` roslaunch orb_slam2_ros orb_slam2_r200_mono.launch ```     | ``` roslaunch orb_slam2_ros orb_slam2_r200_stereo.launch ```     | ``` roslaunch orb_slam2_ros orb_slam2_r200_rgbd.launch ``` |
-| Intel RealSense d435 | ``` roslaunch orb_slam2_ros orb_slam2_d435_mono.launch ```     | -                                                                | ``` roslaunch orb_slam2_ros orb_slam2_d435_rgbd.launch ``` |
-| Mynteye S            | ```roslaunch orb_slam2_ros orb_slam2_mynteye_s_mono.launch ``` | ```roslaunch orb_slam2_ros orb_slam2_mynteye_s_stereo.launch ``` | -                                                          |                     |                                                            |                                                              |                                                            |
 
-Use the command from the corresponding cell for your camera to launch orb_slam2_ros with the right parameters for your setup.
-
-# 6. Docker
-An easy way is to use orb_slam2_ros with Docker. This repository ships with a Dockerfile based on ROS kinetic.
-The container includes orb_slam2_ros as well as the Intel RealSense package for quick testing and data collection.
-
-# 7. FAQ
+# 6. FAQ
 Here are some answers to frequently asked questions.
 ### How to save the map
 To save the map with a simple command line command run one the commands (matching to your node running):
 ```
-rosservice call /orb_slam2_rgbd/save_map map.bin
-rosservice call /orb_slam2_stereo/save_map map.bin
-rosservice call /orb_slam2_mono/save_map map.bin
+ros2 service call /orb_slam2_rgbd/save_map map.bin
+ros2 service call /orb_slam2_stereo/save_map map.bin
+ros2 service call /orb_slam2_mono/save_map map.bin
 ```
 You can replace "map.bin" with any file name you want.
 The file will be saved at ROS_HOME which is by default ~/.ros
 
-**Note** that you need to source your catkin workspace in your terminal in order for the services to become available.
-
-### Using a new / different camera
-You can use this SLAM with almost any mono, stereo or RGBD cam you want.
-In order to use this with a different camera you need to supply a set of paramters to the algorithm. They are loaded from a launch file from the ros/launch folder.
-1) You need the **camera intrinsics and some configurations**. [Here](https://docs.opencv.org/3.1.0/dc/dbb/tutorial_py_calibration.html) you can read about what the camera calibration parameters mean. Use [this](http://wiki.ros.org/camera_calibration) ros node to obtain them for your camera. If you use a stereo or RGBD cam in addition to the calibration and resolution you also need to adjust three other parameters: Camera.bf, ThDepth and DepthMapFactor.
-2) **The ros launch file** which is at ros/launch needs to have the correct topics to subscribe to from the new camera.
-**NOTE** If your camera supports this, orb_slam_2_ros can subscribe to the camera_info topic and read the camera calibration parameters from there.
-
-### Problem running the realsense node
-The node for the RealSense fails to launch when running
-```
-roslaunch realsense2_camera rs_rgbd.launch
-```
-to get the depth stream.
-**Solution:**
-install the rgbd-launch package with the command (make sure to adjust the ROS distro if needed):
-```
-sudo apt install ros-melodic-rgbd-launch
-```
+**Note** that you need to source your ros2 workspace in your terminal in order for the services to become available.
